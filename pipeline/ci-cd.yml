@@ -1,5 +1,5 @@
 ---
-AWSTemplateFormatVersion: 1010-09-09
+AWSTemplateFormatVersion: 2010-09-09
 Description: CloudFormation CI/CD Pipeline
 
 Parameters:
@@ -85,7 +85,7 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: 1012-10-17
+        Version: 2012-10-17
         Statement:
           - Action: sts:AssumeRole
             Effect: Allow
@@ -95,7 +95,7 @@ Resources:
       Policies:
         - PolicyName: CodeBuildAccess
           PolicyDocument:
-            Version: 1012-10-17
+            Version: 2012-10-17
             Statement:
               - Sid: CloudWatchLogsAccess
                 Effect: Allow
@@ -143,7 +143,7 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: 1012-10-17
+        Version: 2012-10-17
         Statement:
           - Effect: Allow
             Action: sts:AssumeRole
@@ -156,7 +156,7 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: 1012-10-17
+        Version: 2012-10-17
         Statement:
           - Action: sts:AssumeRole
             Effect: Allow
@@ -166,7 +166,7 @@ Resources:
       Policies:
         - PolicyName: CodePipelineAccess
           PolicyDocument:
-            Version: 1012-10-17
+            Version: 2012-10-17
             Statement:
               - Sid: S3FullAccess
                 Effect: Allow
