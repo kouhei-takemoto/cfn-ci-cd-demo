@@ -205,7 +205,7 @@ Resources:
               ActionTypeId:
                 Category: Source
                 Owner: ThirdParty
-                Version: 2
+                Version: 1
                 Provider: GitHub
               Configuration:
                 Owner: !Ref Owner
@@ -222,7 +222,7 @@ Resources:
               ActionTypeId:
                 Category: Test
                 Owner: AWS
-                Version: 2
+                Version: 1
                 Provider: CodeBuild
               OutputArtifacts:
                 - Name: TestOutput
@@ -236,7 +236,7 @@ Resources:
               ActionTypeId:
                 Category: Deploy
                 Owner: AWS
-                Version: 2
+                Version: 1
                 Provider: CloudFormation
               OutputArtifacts:
                 - Name: BuildOutput
@@ -254,7 +254,7 @@ Resources:
               ActionTypeId:
                 Category: Approval
                 Owner: AWS
-                Version: 2
+                Version: 1
                 Provider: Manual
               Configuration:
                 NotificationArn: !Ref CodePipelineSNSTopic
@@ -266,7 +266,7 @@ Resources:
               ActionTypeId:
                 Category: Deploy
                 Owner: AWS
-                Version: 2
+                Version: 1
                 Provider: CloudFormation
               Configuration:
                 StackName: !Sub ${AppName}-dev
@@ -289,7 +289,7 @@ Resources:
               ActionTypeId:
                 Category: Source
                 Owner: ThirdParty
-                Version: 2
+                Version: 1
                 Provider: GitHub
               Configuration:
                 Owner: !Ref Owner
@@ -306,7 +306,7 @@ Resources:
               ActionTypeId:
                 Category: Test
                 Owner: AWS
-                Version: 2
+                Version: 1
                 Provider: CodeBuild
               OutputArtifacts:
                 - Name: TestOutput
@@ -320,7 +320,7 @@ Resources:
               ActionTypeId:
                 Category: Deploy
                 Owner: AWS
-                Version: 2
+                Version: 1
                 Provider: CloudFormation
               OutputArtifacts:
                 - Name: BuildOutput
@@ -338,7 +338,7 @@ Resources:
               ActionTypeId:
                 Category: Approval
                 Owner: AWS
-                Version: 2
+                Version: 1
                 Provider: Manual
               Configuration:
                 NotificationArn: !Ref CodePipelineSNSTopic
@@ -350,7 +350,7 @@ Resources:
               ActionTypeId:
                 Category: Deploy
                 Owner: AWS
-                Version: 2
+                Version: 1
                 Provider: CloudFormation
               Configuration:
                 StackName: !Sub ${AppName}-prod
