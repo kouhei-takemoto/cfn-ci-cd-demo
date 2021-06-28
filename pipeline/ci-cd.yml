@@ -81,63 +81,7 @@ Resources:
         - Endpoint: !Ref Email
           Protocol: email
 
-  CodeBuildRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Action: sts:AssumeRole
-            Effect: Allow
-            Principal:
-              Service: codebuild.amazonaws.com
-      Path: /
-      Policies:
-        - PolicyName: CodeBuildAccess
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              - Sid: CloudWatchLogsAccess
-                Effect: Allow
-                Action:
-                  - logs:CreateLogGroup
-                  - logs:CreateLogStream
-                  - logs:PutLogEvents
-                Resource:
-                  - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/*
-              - Sid: S3Access
-                Effect: Allow
-                Action:
-                  - s3:PutObject
-                  - s3:GetObject
-                  - s3:GetObjectVersion
-                Resource:
-                  - !Sub arn:aws:s3:::${ArtifactStoreBucket}
-                  - !Sub arn:aws:s3:::${ArtifactStoreBucket}/*
-                  - !Sub arn:aws:s3:::${CodeBuildBucket}
-                  - !Sub arn:aws:s3:::${CodeBuildBucket}/*
-              - Sid: CloudFormationAccess
-                Effect: Allow
-                Action: cloudformation:ValidateTemplate
-                Resource: "*"
-  CodeBuildProject:
-    Type: AWS::CodeBuild::Project
-    Properties:
-      Name: !Sub ${AppName}
-      ServiceRole: !GetAtt CodeBuildRole.Arn
-      Artifacts:
-        Type: CODEPIPELINE
-      Environment:
-        Type: LINUX_CONTAINER
-        ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/ubuntu-base:14.04
-        EnvironmentVariables:
-          - Name: AWS_REGION
-            Value: !Ref AWS::Region
-          - Name: S3_BUCKET
-            Value: !Ref CodeBuildBucket
-      Source:
-        Type: CODEPIPELINE
+
 
   CFnRole:
     Type: AWS::IAM::Role
@@ -152,6 +96,7 @@ Resources:
       Path: /
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AdministratorAccess
+
   PipelineRole:
     Type: AWS::IAM::Role
     Properties:
@@ -184,12 +129,7 @@ Resources:
                 Effect: Allow
                 Action: sns:Publish
                 Resource: !Ref CodePipelineSNSTopic
-              - Sid: CodeBuildAccess
-                Effect: Allow
-                Action:
-                  - codebuild:BatchGetBuilds
-                  - codebuild:StartBuild
-                Resource: !GetAtt CodeBuildProject.Arn
+
   PipelineDev:
     Type: AWS::CodePipeline::Pipeline
     Properties:
@@ -214,20 +154,7 @@ Resources:
                 OAuthToken: !Ref OAuthToken
               OutputArtifacts:
                 - Name: SourceOutput
-        - Name: Test
-          Actions:
-            - InputArtifacts:
-                - Name: SourceOutput
-              Name: testing
-              ActionTypeId:
-                Category: Test
-                Owner: AWS
-                Version: 1
-                Provider: CodeBuild
-              OutputArtifacts:
-                - Name: TestOutput
-              Configuration:
-                ProjectName: !Ref CodeBuildProject
+
         - Name: Build
           Actions:
             - InputArtifacts:
@@ -248,6 +175,7 @@ Resources:
                 StackName: !Sub ${AppName}-dev
                 TemplatePath: !Sub TestOutput::${TemplateFilePath}
                 TemplateConfiguration: !Sub TestOutput::${StackConfigDev}
+
         - Name: Approval
           Actions:
             - Name: approve-changeset
@@ -260,6 +188,7 @@ Resources:
                 NotificationArn: !Ref CodePipelineSNSTopic
                 ExternalEntityLink: !Sub https://console.aws.amazon.com/cloudformation/home?region=${AWS::Region}
                 CustomData: Please review changeset
+
         - Name: Deploy
           Actions:
             - Name: execute-changeset
@@ -298,20 +227,7 @@ Resources:
                 OAuthToken: !Ref OAuthToken
               OutputArtifacts:
                 - Name: SourceOutput
-        - Name: Test
-          Actions:
-            - InputArtifacts:
-                - Name: SourceOutput
-              Name: testing
-              ActionTypeId:
-                Category: Test
-                Owner: AWS
-                Version: 1
-                Provider: CodeBuild
-              OutputArtifacts:
-                - Name: TestOutput
-              Configuration:
-                ProjectName: !Ref CodeBuildProject
+
         - Name: Build
           Actions:
             - InputArtifacts:
