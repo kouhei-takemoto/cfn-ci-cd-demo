@@ -5,7 +5,7 @@ Description: CloudFormation CI/CD Pipeline
 Parameters:
   Owner:
     Type: String
-    Default: knakayama
+    Default: kouhei-takemoto
   Repo:
     Type: String
     Default: cfn-ci-cd-demo

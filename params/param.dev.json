@@ -1,8 +1,6 @@
 {
   "Parameters": {
     "Stage": "dev",
-    "VPCCidrBlock": "192.168.0.0/16",
-    "KeyName": "mykey",
-    "InstanceType": "t2.nano"
+    "VPCCidrBlock": "192.168.0.0/16"
   }
 }
