@@ -1,5 +1,5 @@
 ---
-AWSTemplateFormatVersion: 2010-09-09
+AWSTemplateFormatVersion: 1010-09-09
 Description: CloudFormation CI/CD Pipeline
 
 Parameters:
@@ -85,7 +85,7 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: 2012-10-17
+        Version: 1012-10-17
         Statement:
           - Action: sts:AssumeRole
             Effect: Allow
@@ -95,7 +95,7 @@ Resources:
       Policies:
         - PolicyName: CodeBuildAccess
           PolicyDocument:
-            Version: 2012-10-17
+            Version: 1012-10-17
             Statement:
               - Sid: CloudWatchLogsAccess
                 Effect: Allow
@@ -143,7 +143,7 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: 2012-10-17
+        Version: 1012-10-17
         Statement:
           - Effect: Allow
             Action: sts:AssumeRole
@@ -156,7 +156,7 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: 2012-10-17
+        Version: 1012-10-17
         Statement:
           - Action: sts:AssumeRole
             Effect: Allow
@@ -166,7 +166,7 @@ Resources:
       Policies:
         - PolicyName: CodePipelineAccess
           PolicyDocument:
-            Version: 2012-10-17
+            Version: 1012-10-17
             Statement:
               - Sid: S3FullAccess
                 Effect: Allow
@@ -205,7 +205,7 @@ Resources:
               ActionTypeId:
                 Category: Source
                 Owner: ThirdParty
-                Version: 2
+                Version: 1
                 Provider: GitHub
               Configuration:
                 Owner: !Ref Owner
@@ -222,7 +222,7 @@ Resources:
               ActionTypeId:
                 Category: Test
                 Owner: AWS
-                Version: 2
+                Version: 1
                 Provider: CodeBuild
               OutputArtifacts:
                 - Name: TestOutput
@@ -236,7 +236,7 @@ Resources:
               ActionTypeId:
                 Category: Deploy
                 Owner: AWS
-                Version: 2
+                Version: 1
                 Provider: CloudFormation
               OutputArtifacts:
                 - Name: BuildOutput
@@ -254,7 +254,7 @@ Resources:
               ActionTypeId:
                 Category: Approval
                 Owner: AWS
-                Version: 2
+                Version: 1
                 Provider: Manual
               Configuration:
                 NotificationArn: !Ref CodePipelineSNSTopic
@@ -266,7 +266,7 @@ Resources:
               ActionTypeId:
                 Category: Deploy
                 Owner: AWS
-                Version: 2
+                Version: 1
                 Provider: CloudFormation
               Configuration:
                 StackName: !Sub ${AppName}-dev
@@ -289,7 +289,7 @@ Resources:
               ActionTypeId:
                 Category: Source
                 Owner: ThirdParty
-                Version: 2
+                Version: 1
                 Provider: GitHub
               Configuration:
                 Owner: !Ref Owner
@@ -306,7 +306,7 @@ Resources:
               ActionTypeId:
                 Category: Test
                 Owner: AWS
-                Version: 2
+                Version: 1
                 Provider: CodeBuild
               OutputArtifacts:
                 - Name: TestOutput
@@ -320,7 +320,7 @@ Resources:
               ActionTypeId:
                 Category: Deploy
                 Owner: AWS
-                Version: 2
+                Version: 1
                 Provider: CloudFormation
               OutputArtifacts:
                 - Name: BuildOutput
@@ -338,7 +338,7 @@ Resources:
               ActionTypeId:
                 Category: Approval
                 Owner: AWS
-                Version: 2
+                Version: 1
                 Provider: Manual
               Configuration:
                 NotificationArn: !Ref CodePipelineSNSTopic
@@ -350,7 +350,7 @@ Resources:
               ActionTypeId:
                 Category: Deploy
                 Owner: AWS
-                Version: 2
+                Version: 1
                 Provider: CloudFormation
               Configuration:
                 StackName: !Sub ${AppName}-prod
